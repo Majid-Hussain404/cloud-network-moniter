@@ -58,6 +58,8 @@ See [PROJECT_PLAN.md](PROJECT_PLAN.md) for the architecture, roadmap, testing pl
 
 The AWS preparation guide is in [docs/AWS_DEPLOYMENT.md](docs/AWS_DEPLOYMENT.md).
 
+Review [docs/SECURITY_CHECKLIST.md](docs/SECURITY_CHECKLIST.md) before making the dashboard publicly reachable.
+
 ## Security
 
 Do not commit passwords, API keys, private keys, `.env` files, or cloud credentials. The repository ignores the local virtual environment, generated database data, and environment files.

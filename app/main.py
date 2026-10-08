@@ -10,6 +10,7 @@ from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 
 from .database import CheckResult, Incident, ServerSnapshot, SessionLocal, Target, create_tables
+from .config import settings
 from .monitoring.http_checker import check_http
 from .monitoring.ping_checker import check_ping
 from .monitoring.tcp_checker import check_tcp
@@ -34,6 +35,8 @@ app = FastAPI(
     description="A beginner-friendly network monitoring API.",
     version="0.1.0",
     lifespan=lifespan,
+    docs_url=None if settings.environment == "production" else "/docs",
+    redoc_url=None if settings.environment == "production" else "/redoc",
 )
 
 STATIC_DIR = Path(__file__).parent / "static"
