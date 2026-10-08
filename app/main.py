@@ -212,3 +212,20 @@ def list_incidents(db: Session = Depends(get_db)) -> list[dict[str, object]]:
         }
         for incident in incidents
     ]
+
+
+@app.get("/api/history")
+def history(db: Session = Depends(get_db)) -> list[dict[str, object]]:
+    results = db.query(CheckResult).order_by(CheckResult.checked_at.desc()).limit(40).all()
+    target_names = {target.id: target.name for target in db.query(Target).all()}
+    return [
+        {
+            "target_name": target_names.get(result.target_id, "Unknown target"),
+            "checked_at": result.checked_at.isoformat(),
+            "success": result.success,
+            "response_time_ms": result.response_time_ms,
+            "status_code": result.status_code,
+            "error": result.error,
+        }
+        for result in results
+    ]

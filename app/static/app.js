@@ -1,15 +1,17 @@
 async function loadOverview() {
-  const [overviewResponse, targetsResponse, metricsResponse, incidentsResponse] = await Promise.all([
+  const [overviewResponse, targetsResponse, metricsResponse, incidentsResponse, historyResponse] = await Promise.all([
     fetch('/api/overview'),
     fetch('/api/targets'),
     fetch('/api/system-metrics'),
     fetch('/api/incidents'),
+    fetch('/api/history'),
   ]);
-  if (!overviewResponse.ok || !targetsResponse.ok || !metricsResponse.ok || !incidentsResponse.ok) throw new Error('The API returned an error.');
+  if (!overviewResponse.ok || !targetsResponse.ok || !metricsResponse.ok || !incidentsResponse.ok || !historyResponse.ok) throw new Error('The API returned an error.');
   const data = await overviewResponse.json();
   const targets = await targetsResponse.json();
   const metrics = await metricsResponse.json();
   const incidents = await incidentsResponse.json();
+  const history = await historyResponse.json();
   document.querySelector('#monitoring-status').textContent = data.monitoring_status;
   document.querySelector('#overview-message').textContent = data.message;
   document.querySelector('#targets-monitored').textContent = data.targets_monitored;
@@ -20,6 +22,7 @@ async function loadOverview() {
   document.querySelector('#uptime').textContent = formatUptime(metrics.uptime_seconds);
   document.querySelector('#bytes-received').textContent = formatBytes(metrics.bytes_received);
   renderIncidents(incidents);
+  renderHistory(history);
 
   const targetPanel = document.querySelector('#targets .empty-state');
   if (targets.length > 0) {
@@ -54,6 +57,18 @@ function renderIncidents(incidents) {
     </div>
   `).join('');
   alertState.classList.add('incident-list');
+}
+
+function renderHistory(history) {
+  const chart = document.querySelector('#history-chart');
+  if (history.length === 0) return;
+  const recent = [...history].reverse();
+  const maxLatency = Math.max(...recent.map((item) => item.response_time_ms || 1));
+  chart.innerHTML = recent.map((item) => {
+    const height = Math.max(8, Math.round(((item.response_time_ms || 1) / maxLatency) * 100));
+    const state = item.success ? 'success' : 'failure';
+    return `<div class="history-bar ${state}" style="height: ${height}%" title="${item.target_name}: ${item.success ? `${item.response_time_ms ?? '—'} ms` : 'failed'}"></div>`;
+  }).join('');
 }
 
 function renderTargetStatus(result) {
