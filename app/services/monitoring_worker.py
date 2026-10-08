@@ -1,18 +1,18 @@
 import asyncio
 import logging
-import os
 from datetime import datetime, timezone
 
 from sqlalchemy.orm import Session
 
 from ..database import CheckResult, Incident, ServerSnapshot, SessionLocal, Target
+from ..config import settings
 from ..monitoring.http_checker import check_http
 from ..monitoring.ping_checker import check_ping
 from ..monitoring.system_metrics import collect_system_metrics
 from ..monitoring.tcp_checker import check_tcp
 
 logger = logging.getLogger(__name__)
-INTERVAL_SECONDS = float(os.getenv("MONITOR_INTERVAL_SECONDS", "30"))
+INTERVAL_SECONDS = settings.monitoring_interval_seconds
 worker_state = {"status": "starting", "last_run_at": None, "last_error": None}
 
 

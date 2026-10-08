@@ -39,6 +39,12 @@ Start the development server:
 
 Open `http://127.0.0.1:8000` in a browser. API documentation is available at `http://127.0.0.1:8000/docs`.
 
+## Configuration
+
+Runtime settings are read from environment variables. See [.env.example](.env.example) for the available names. `MONITOR_INTERVAL_SECONDS` controls how often the background worker runs and defaults to 30 seconds. The application does not require secrets for the current local features.
+
+For a cloud process, set environment variables in the service manager rather than committing a `.env` file.
+
 ## Important limitations
 
 - CPU and memory metrics currently describe the machine running PulseWatch, not arbitrary remote servers.
