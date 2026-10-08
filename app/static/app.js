@@ -81,3 +81,33 @@ loadOverview().catch((error) => {
   document.querySelector('#monitoring-status').textContent = 'API unavailable';
   document.querySelector('#overview-message').textContent = error.message;
 });
+
+document.querySelector('#toggle-target-form').addEventListener('click', () => {
+  const form = document.querySelector('#target-form');
+  form.hidden = !form.hidden;
+});
+
+document.querySelector('#target-form').addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const message = document.querySelector('#target-form-message');
+  const targetType = document.querySelector('#target-type').value;
+  const portValue = document.querySelector('#target-port').value;
+  const payload = {
+    name: document.querySelector('#target-name').value,
+    target_type: targetType,
+    address: document.querySelector('#target-address').value,
+    port: targetType === 'tcp' && portValue ? Number(portValue) : null,
+  };
+  const response = await fetch('/api/targets', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+  if (!response.ok) {
+    message.textContent = 'Unable to save target.';
+    return;
+  }
+  document.querySelector('#target-form').reset();
+  message.textContent = 'Saved. Refreshing...';
+  setTimeout(() => window.location.reload(), 300);
+});

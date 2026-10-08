@@ -63,7 +63,15 @@
 
         <section class="content-grid">
           <article class="panel" id="targets">
-            <div class="panel-heading"><div><p class="eyebrow muted">TARGETS</p><h3>Monitored services</h3></div><button disabled>Add target</button></div>
+            <div class="panel-heading"><div><p class="eyebrow muted">TARGETS</p><h3>Monitored services</h3></div><button id="toggle-target-form" type="button">Add target</button></div>
+            <form id="target-form" class="target-form" hidden>
+              <input id="target-name" required maxlength="100" placeholder="Target name" />
+              <select id="target-type"><option value="http">HTTP/HTTPS</option><option value="tcp">TCP port</option><option value="host">Host / ping</option></select>
+              <input id="target-address" required maxlength="255" placeholder="URL or host" />
+              <input id="target-port" type="number" min="1" max="65535" placeholder="Port (TCP only)" />
+              <button type="submit">Save target</button>
+              <span id="target-form-message" class="form-message"></span>
+            </form>
             <div class="empty-state"><div class="empty-icon">⌁</div><h4>No targets yet</h4><p>Targets will appear here after we add the database and monitoring checks.</p></div>
           </article>
           <article class="panel" id="alerts">
