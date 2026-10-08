@@ -1,0 +1,20 @@
+[Unit]
+Description=PulseWatch network monitoring platform
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=pulsewatch
+Group=pulsewatch
+WorkingDirectory=/opt/pulsewatch
+Environment=PULSEWATCH_ENVIRONMENT=production
+Environment=MONITOR_INTERVAL_SECONDS=30
+ExecStart=/opt/pulsewatch/.venv/bin/python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
