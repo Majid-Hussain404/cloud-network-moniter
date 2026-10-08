@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PulseWatch | Network Monitor</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand-mark">P</div>
+        <div class="brand-copy">
+          <strong>PulseWatch</strong>
+          <span>Network monitor</span>
+        </div>
+        <nav>
+          <a class="nav-link active" href="/">Overview</a>
+          <a class="nav-link" href="#targets">Targets</a>
+          <a class="nav-link" href="#alerts">Alerts</a>
+        </nav>
+        <div class="sidebar-foot">Local development<br /><span>API connected</span></div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">COMMAND CENTER</p>
+            <h1>Network overview</h1>
+          </div>
+          <div class="topbar-meta"><span class="live-dot"></span> Live workspace</div>
+        </header>
+
+        <section class="hero-card">
+          <div>
+            <p class="eyebrow muted">MONITORING STATUS</p>
+            <h2 id="monitoring-status">Connecting...</h2>
+            <p id="overview-message">Checking the monitoring API.</p>
+          </div>
+          <div class="pulse-ring"><span></span></div>
+        </section>
+
+        <section class="metrics-grid" aria-label="Monitoring summary">
+          <article class="metric-card"><span class="metric-label">Targets monitored</span><strong id="targets-monitored">—</strong><small>Total configured targets</small></article>
+          <article class="metric-card"><span class="metric-label">Healthy targets</span><strong id="healthy-targets">—</strong><small>Responding normally</small></article>
+          <article class="metric-card"><span class="metric-label">Active alerts</span><strong id="active-alerts">—</strong><small>Needs attention</small></article>
+        </section>
+
+        <section class="server-section">
+          <div class="section-heading"><p class="eyebrow muted">MONITORING SERVER</p><span>Live local snapshot</span></div>
+          <div class="server-grid">
+            <article class="metric-card"><span class="metric-label">CPU usage</span><strong id="cpu-percent">—</strong><small>Current utilization</small></article>
+            <article class="metric-card"><span class="metric-label">Memory usage</span><strong id="memory-percent">—</strong><small>Current utilization</small></article>
+            <article class="metric-card"><span class="metric-label">Uptime</span><strong id="uptime">—</strong><small>Time since boot</small></article>
+            <article class="metric-card"><span class="metric-label">Network received</span><strong id="bytes-received">—</strong><small>Cumulative bytes</small></article>
+          </div>
+        </section>
+
+        <section class="content-grid">
+          <article class="panel" id="targets">
+            <div class="panel-heading"><div><p class="eyebrow muted">TARGETS</p><h3>Monitored services</h3></div><button disabled>Add target</button></div>
+            <div class="empty-state"><div class="empty-icon">⌁</div><h4>No targets yet</h4><p>Targets will appear here after we add the database and monitoring checks.</p></div>
+          </article>
+          <article class="panel" id="alerts">
+            <div class="panel-heading"><div><p class="eyebrow muted">ALERTS</p><h3>Recent incidents</h3></div></div>
+            <div class="empty-state compact"><div class="empty-icon">✓</div><h4>All clear</h4><p>No incidents have been recorded.</p></div>
+          </article>
+        </section>
+      </main>
+    </div>
+    <script src="/static/app.js"></script>
+  </body>
+</html>
